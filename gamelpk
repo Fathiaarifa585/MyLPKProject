@@ -1,10 +1,12 @@
 def tampilkan_menu_utama():
+    """Menampilkan menu utama game."""
     print("\n=== Game Uji Kualitatif Senyawa Organik dan Anorganik ===")
     print("1. Materi")
     print("2. Latihan")
     print("3. Keluar")
 
 def tampilkan_materi():
+    """Menampilkan dan mengelola menu materi."""
     while True:
         print("\n=== Menu Materi ===")
         print("1. Materi Organik")
@@ -19,47 +21,54 @@ def tampilkan_materi():
             print("\n--- Materi Anorganik ---")
             print("Senyawa anorganik seperti garam, asam, basa, dan oksida logam.")
         elif pilihan == '3':
-            break
+            break  # Keluar dari loop materi
         else:
-            print("Pilihan tidak valid.")
+            print("Pilihan tidak valid. Silakan coba lagi.")
 
 def latihan_soal():
+    """Menampilkan soal latihan dan memeriksa jawaban."""
     soal = {
         "pertanyaan": "Senyawa manakah yang termasuk senyawa organik?",
-        "pilihan": ["NaCl", "C6H12O6", "FeSO4", "CuO"],
-        "jawaban": 2,
+        "pilihan": ["1. NaCl", "2. C6H12O6", "3. FeSO4", "4. CuO"],
+        "jawaban_benar": 2, # Menggunakan indeks 1-based sesuai tampilan
         "pembahasan": "C6H12O6 adalah glukosa, senyawa organik karena mengandung karbon dan hidrogen."
     }
 
     print("\n=== Latihan Soal ===")
     print(soal["pertanyaan"])
-    for i, opsi in enumerate(soal["pilihan"], start=1):
-        print(f"{i}. {opsi}")
+    for i, opsi in enumerate(soal["pilihan"]): # Tidak perlu start=1 karena sudah ada di string pilihan
+        print(opsi)
 
-    try:
-        jawaban = int(input("Jawaban Anda (1-4): "))
-        if jawaban == soal["jawaban"]:
-            print("Jawaban kamu BENAR!")
-        else:
-            print("Jawaban kamu SALAH.")
-        print("Pembahasan:", soal["pembahasan"])
-    except:
-        print("Input tidak valid.")
+    while True: # Loop untuk validasi input jawaban
+        try:
+            jawaban_user = int(input("Jawaban Anda (masukkan angka 1-4): "))
+            if 1 <= jawaban_user <= 4:
+                if jawaban_user == soal["jawaban_benar"]:
+                    print("Jawaban kamu BENAR!")
+                else:
+                    print(f"Jawaban kamu SALAH. Jawaban yang benar adalah {soal['jawaban_benar']}.")
+                print("Pembahasan:", soal["pembahasan"])
+                break # Keluar dari loop jika input valid dan sudah diproses
+            else:
+                print("Input tidak valid. Masukkan angka antara 1 dan 4.")
+        except ValueError: # Menangkap error jika input bukan angka
+            print("Input tidak valid. Harap masukkan angka.")
 
 def main():
+    """Fungsi utama untuk menjalankan game."""
     while True:
         tampilkan_menu_utama()
-        pilihan = input("Pilih menu: ")
+        pilihan_menu_utama = input("Pilih menu: ")
 
-        if pilihan == '1':
+        if pilihan_menu_utama == '1':
             tampilkan_materi()
-        elif pilihan == '2':
+        elif pilihan_menu_utama == '2':
             latihan_soal()
-        elif pilihan == '3':
-            print("Terima kasih telah bermain!")
+        elif pilihan_menu_utama == '3':
+            print("Terima kasih telah bermain! Sampai jumpa.")
             break
         else:
-            print("Pilihan tidak valid.")
+            print("Pilihan tidak valid. Silakan coba lagi.")
 
-if _name_ == "_main_":
+if __name__ == "__main__":
     main()
