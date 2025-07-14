@@ -1,25 +1,52 @@
 import streamlit as st
 
-# Set judul aplikasi
-st.title("Mini Game Kimia")
+st.set_page_config(page_title="Game Edukasi Uji Reaksi Kimia", layout="centered")
 
-# Simpan status aplikasi dengan session_state
-if "step" not in st.session_state:
-    st.session_state.step = "start"
-if "topik" not in st.session_state:
-    st.session_state.topik = ""
+st.title("🧪 Game Edukasi: Uji Reaksi Kimia Anorganik dan Organik")
+st.write("Selamat datang! Yuk uji pemahamanmu tentang uji reaksi kimia anorganik dan organik.")
 
-# Fungsi untuk reset ke awal
-def reset():
-    st.session_state.step = "start"
-    st.session_state.topik = ""
+# Pertanyaan dan Jawaban
+questions = [
+    {
+        "question": "1. Apa hasil uji nyala dari ion Natrium (Na⁺)?",
+        "options": ["Merah bata", "Kuning terang", "Hijau zamrud", "Ungu"],
+        "answer": "Kuning terang"
+    },
+    {
+        "question": "2. Zat organik dengan gugus -OH menunjukkan hasil positif pada uji...",
+        "options": ["Tollens", "Fehling", "Benedict", "Naftol"],
+        "answer": "Naftol"
+    },
+    {
+        "question": "3. Ion Cu²⁺ jika direaksikan dengan larutan NaOH akan membentuk endapan berwarna...",
+        "options": ["Putih", "Hijau", "Biru", "Merah"],
+        "answer": "Biru"
+    },
+    {
+        "question": "4. Uji Tollens digunakan untuk mengidentifikasi senyawa...",
+        "options": ["Alkohol", "Aldehida", "Asam karboksilat", "Amina"],
+        "answer": "Aldehida"
+    }
+]
 
-# Tampilan awal: tombol Start
-if st.session_state.step == "start":
-    if st.button("Start"):
-        st.session_state.step = "pilih_topik"
+# Skor
+score = 0
+user_answers = []
 
-# Langkah kedua: pilih topik organik/anorganik
-elif st.session_state.step == "pilih_topik":
-    st.write("Pilih topik:")
-    col1, col2 = st.columns(2)
+# Menampilkan pertanyaan
+for i, q in enumerate(questions):
+    st.subheader(q["question"])
+    choice = st.radio(f"Jawaban Anda (Soal {i+1})", q["options"], key=i)
+    user_answers.append(choice)
+    if choice == q["answer"]:
+        score += 1
+
+# Tombol Submit
+if st.button("Lihat Skor"):
+    st.success(f"Skor Anda: {score} dari {len(questions)}")
+
+    for i, q in enumerate(questions):
+        if user_answers[i] == q["answer"]:
+            st.markdown(f"✅ *{q['question']}* - Benar")
+        else:
+            st.markdown(f"❌ *{q['question']}* - Salah. Jawaban benar: *{q['answer']}*")
